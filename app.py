@@ -120,16 +120,23 @@ body{
 }
 
 .wrap {
+  width: 100%;
   max-width: 480px;
   margin: 0 auto;
   padding: 16px;
 
-  /* Centrage vertical sur tout l'écran */
+  /* Occupe 100% de la hauteur de l’écran */
   min-height: 100vh;
+
+  /* Centrer verticalement */
   display: flex;
   flex-direction: column;
   justify-content: center;
+
+  /* Améliore l'adaptation mobile */
+  box-sizing: border-box;
 }
+
 
 
 .card{
@@ -141,6 +148,8 @@ body{
   position:relative;
   overflow:hidden;
   margin: 0 auto;
+  width: 100%;
+  max-width: 460px;
 }
 
 .card::before{
