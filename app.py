@@ -106,6 +106,12 @@ BASE_HTML = """
 
 *{box-sizing:border-box;}
 
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont;
@@ -113,11 +119,18 @@ body{
   color:#e5e7eb;
 }
 
-.wrap{
-  max-width:480px;
-  margin:32px auto;
-  padding:16px;
+.wrap {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px;
+
+  /* Centrage vertical sur tout l'écran */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
+
 
 .card{
   background:linear-gradient(135deg, rgba(15,23,42,0.96), rgba(2,6,23,0.98));
@@ -127,6 +140,7 @@ body{
   padding:22px 20px 20px 20px;
   position:relative;
   overflow:hidden;
+  margin: 0 auto;
 }
 
 .card::before{
