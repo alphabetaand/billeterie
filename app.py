@@ -648,11 +648,15 @@ def export_pdf(event):
     pdf.save()
     buff.seek(0)
 
-    return send_file(
-        buff,
-        download_name=f"event{event}_validated.pdf",
-        mimetype="application/pdf",
-    )
+    # 🔥 SAFARI + PWA : on enregistre le PDF dans /data
+    filename = f"event{event}_validated.pdf"
+    filepath = f"/data/{filename}"
+
+    with open(filepath, "wb") as f:
+        f.write(buff.getbuffer())
+
+    # 🔥 On redirige vers une URL que iPhone peut ouvrir
+    return redirect(f"/download/{filename}")
 
 
 # -------------------------------------------------------
@@ -700,6 +704,11 @@ def logout_protect():
     """
 
     return render_template_string(BASE_HTML, title="Déconnexion sécurisée", body=body)
+
+@app.route("/download/<filename>")
+def download_file(filename):
+    return send_from_directory("/data", filename)
+
 # -------------------------------------------------------
 # ▶ RUN (local seulement)
 # -------------------------------------------------------
