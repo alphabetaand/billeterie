@@ -627,7 +627,6 @@ def export_pdf(event):
 
     return send_file(
         buff,
-        as_attachment=True,
         download_name=f"event{event}_validated.pdf",
         mimetype="application/pdf",
     )
