@@ -562,14 +562,15 @@ def admin_event(event):
         action = request.form.get("action", "")
         conn = db(event)
         cur = conn.cursor()
-    if action == "reset_all":
-    code = request.form.get("reset_code", "")
-    if code != "reset":
-        msg = "Code incorrect, réinitialisation impossible."
-    else:
-        cur.execute("UPDATE tickets SET validated_at=NULL")
-        msg = "Tous les tickets ont été réinitialisés."    
- 
+
+        if action == "reset_all":
+            code = request.form.get("reset_code", "")
+            if code != "reset":
+                msg = "Code incorrect, réinitialisation impossible."
+            else:
+                cur.execute("UPDATE tickets SET validated_at=NULL")
+                msg = "Tous les tickets ont été réinitialisés."
+
         elif action == "reset_one":
             try:
                 num = int(request.form.get("number", "").strip())
@@ -598,15 +599,12 @@ def admin_event(event):
 
         <hr>
 
-       <form method="post" style="margin-top:12px;">
-         <input type="password" name="reset_code" placeholder="Code de réinitialisation (reset)" required>
-         <button class="btn btn-danger" name="action" value="reset_all" type="submit">
-            Réinitialiser tout l'événement
-         </button>
-    
-       *
-       </form>
-
+        <form method="post" style="margin-top:12px;">
+            <input type="password" name="reset_code" placeholder="Code de réinitialisation (reset)" required>
+            <button class="btn btn-danger" name="action" value="reset_all" type="submit">
+                Réinitialiser tout l'événement
+            </button>
+        </form>
 
         <form method="post" style="margin-top:12px;">
             <input type="number" name="number" placeholder="Ticket à réinitialiser (1–300)">
@@ -626,6 +624,7 @@ def admin_event(event):
     """
 
     return render_template_string(BASE_HTML, title="Admin", body=body)
+
 # -------------------------------------------------------
 # 🖨 EXPORT PDF
 # -------------------------------------------------------
