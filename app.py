@@ -55,7 +55,7 @@ BASE_HTML = """
 <!doctype html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta charset="utf-8">
 <title>{{ title }}</title>
 
@@ -123,21 +123,18 @@ body{
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
-  padding: 16px;
 
-  /* Occupe 100% de la hauteur de l’écran */
+  padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+
+  /* UTILISER TOUTE LA HAUTEUR DU TÉLÉPHONE */
   min-height: 100vh;
 
-  /* Centrer verticalement */
   display: flex;
   flex-direction: column;
   justify-content: center;
 
-  /* Améliore l'adaptation mobile */
   box-sizing: border-box;
 }
-
-
 
 .card{
   background:linear-gradient(135deg, rgba(15,23,42,0.96), rgba(2,6,23,0.98));
@@ -567,8 +564,13 @@ def admin_event(event):
         cur = conn.cursor()
 
         if action == "reset_all":
-            cur.execute("UPDATE tickets SET validated_at=NULL")
-            msg = "Tous les tickets ont été réinitialisés."
+    code = request.form.get("reset_code", "")
+    if code != "reset":
+        msg = "Code incorrect, réinitialisation impossible."
+    else:
+        cur.execute("UPDATE tickets SET validated_at=NULL")
+        msg = "Tous les tickets ont été réinitialisés."
+
         elif action == "reset_one":
             try:
                 num = int(request.form.get("number", "").strip())
@@ -597,11 +599,15 @@ def admin_event(event):
 
         <hr>
 
-        <form method="post">
-            <button class="btn btn-danger" name="action" value="reset_all" type="submit">
-                Réinitialiser tout l'événement
-            </button>
-        </form>
+       <form method="post" style="margin-top:12px;">
+         <input type="password" name="reset_code" placeholder="Code de réinitialisation (reset)" required>
+         <button class="btn btn-danger" name="action" value="reset_all" type="submit">
+            Réinitialiser tout l'événement
+         </button>
+    
+       *
+       </form>
+
 
         <form method="post" style="margin-top:12px;">
             <input type="number" name="number" placeholder="Ticket à réinitialiser (1–300)">
