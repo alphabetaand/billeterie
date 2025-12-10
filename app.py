@@ -562,15 +562,14 @@ def admin_event(event):
         action = request.form.get("action", "")
         conn = db(event)
         cur = conn.cursor()
-
-        if action == "reset_all":
+    if action == "reset_all":
     code = request.form.get("reset_code", "")
     if code != "reset":
         msg = "Code incorrect, réinitialisation impossible."
     else:
         cur.execute("UPDATE tickets SET validated_at=NULL")
-        msg = "Tous les tickets ont été réinitialisés."
-
+        msg = "Tous les tickets ont été réinitialisés."    
+ 
         elif action == "reset_one":
             try:
                 num = int(request.form.get("number", "").strip())
