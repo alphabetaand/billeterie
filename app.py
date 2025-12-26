@@ -18,11 +18,11 @@ from openpyxl import Workbook
 app = Flask(__name__)
 app.secret_key = "SUPER_KEY_384758394"
 
-ADMIN_PASSWORD = "admin123"
+ADMIN_PASSWORD = "code26"
 
 EVENT_CODES = {
-    1: "trap team",
-    2: "danslebon1",
+    1: "trap",
+    2: "code",
 }
 
 DB1 = "/data/tickets.db"
